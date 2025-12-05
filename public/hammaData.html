@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hamma Ma'lumotlar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-6">
+    <h1 class="text-2xl font-bold mb-4">All Form Submissions</h1>
+    <button
+      class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      onclick="window.history.back()"
+    >
+      &lt;- Ortga
+    </button>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr id="tableHeader" class="text-left text-gray-700"></tr>
+        </thead>
+        <tbody id="tableBody" class="divide-y divide-gray-200"></tbody>
+      </table>
+    </div>
+
+    <script>
+      const tableHeader = document.getElementById('tableHeader');
+      const tableBody = document.getElementById('tableBody');
+
+      fetch('http://localhost:4000/allData')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.length === 0) {
+            tableBody.innerHTML =
+              '<tr><td colspan="100%" class="text-center p-4">No data found</td></tr>';
+            return;
+          }
+
+          // Filter out _id, __v, updatedAt
+          const keys = Object.keys(data[0]).filter(
+            (key) => key !== '_id' && key !== 'updatedAt' && key !== '__v'
+          );
+
+          // Ensure createdAt is included
+          if (!keys.includes('createdAt')) keys.push('createdAt');
+
+          // Create table headers
+          keys.forEach((key) => {
+            const th = document.createElement('th');
+            th.textContent = key;
+            th.className = 'px-4 py-2 font-medium text-gray-700';
+            tableHeader.appendChild(th);
+          });
+
+          // Create table rows
+          data.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50'; // alternating rows
+
+            keys.forEach((key) => {
+              const td = document.createElement('td');
+              td.className = 'px-4 py-2 text-gray-800';
+              td.textContent =
+                key === 'createdAt'
+                  ? new Date(item[key]).toLocaleString()
+                  : item[key];
+              tr.appendChild(td);
+            });
+
+            tableBody.appendChild(tr);
+          });
+        })
+        .catch((err) => {
+          tableBody.innerHTML = `<tr><td colspan="100%" class="text-center p-4 text-red-500">Error fetching data: ${err.message}</td></tr>`;
+        });
+    </script>
+  </body>
+</html>

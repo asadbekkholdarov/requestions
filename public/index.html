@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Uy xo'jaligi So'rovnoma Formasi</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Tugma o'chirilgan (disabled) holatida ko'rinishini sozlash */
+      #submit-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 py-10">
+    <h2 class="text-center text-3xl font-bold mb-8 text-gray-800">
+      Uy xo'jaligi so'rovnoma formasi
+    </h2>
+
+    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8">
+      <form id="form" class="space-y-6">
+        <div>
+          <label class="block mb-1 font-medium">1. Xudud nomi</label>
+          <input
+            required
+            type="text"
+            name="xudud_nomi"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Xudud nomi"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium">2. Tuman/Shahar nomi</label>
+          <input
+            required
+            type="text"
+            name="tuman_nomi"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Tuman yoki shahar"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium">3. Mahalla nomi</label>
+          <input
+            required
+            type="text"
+            name="mahalla_nomi"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Mahalla nomi"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium">4.Ko‘cha nomi</label>
+          <input
+            required
+            type="text"
+            name="kocha_nomi"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Ko‘cha nomi"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold">5. Uy manzili</label>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <input
+              type="text"
+              name="uy_raqami"
+              class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="Uy raqami"
+            />
+            <input
+              type="text"
+              name="korpus_raqami"
+              class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="Korpus"
+            />
+            <input
+              type="text"
+              name="xonadon_raqami"
+              class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="Xonadon"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-2 font-semibold text-gray-700">
+            6. Manzilda odamlar yashaydimi?
+          </label>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input
+                required
+                type="radio"
+                name="yashaydi"
+                value="xa"
+                class="w-5 h-5 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Ha</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input
+                required
+                type="radio"
+                name="yashaydi"
+                value="yoq"
+                class="w-5 h-5 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Yo‘q</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="sababi-div" class="hidden mt-4">
+          <label class="block mb-2 ml-6 font-semibold text-gray-700">
+            6.1 Yashamaslik sababi
+          </label>
+          <div class="flex flex-row gap-6 ml-6">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="yashamaydi_sababi"
+                value="bosh"
+                class="w-5 h-5 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Bo'sh</span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="yashamaydi_sababi"
+                value="mavsumiy"
+                class="w-5 h-5 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Mavsumiy</span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="yashamaydi_sababi"
+                value="turar-joy emas"
+                class="w-5 h-5 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Turar-joy emas</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >7. Nechta odam yashaydi? (kishi)</label
+          >
+          <input
+            required
+            type="number"
+            name="odam_soni"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Odamlar soni"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >8. Umumiy yer maydoni (sotix) (bino,yolaklar,qishloq xo'jalik
+            yerlar bilan birga)</label
+          >
+          <input
+            required
+            type="text"
+            name="yer_maydoni"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Masalan: 6 sotix"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >9. Yirik shoxli qoramollar jami soni (bosh)</label
+          >
+          <input
+            required
+            type="number"
+            name="yirik_shoxli_mollar"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Nechta?"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >10. Qo‘y va echkilar jami soni (bosh)</label
+          >
+          <input
+            required
+            type="number"
+            name="qoy_echki_soni"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Nechta?"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >11. Parrandalar soni (bosh)</label
+          >
+          <input
+            required
+            type="number"
+            name="parranda_soni"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Nechta?"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >12. Mevali daraxtlar soni (ta)</label
+          >
+          <input
+            required
+            type="number"
+            name="mevali_daraxtlar"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Nechta?"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium"
+            >13. Manzarali daraxtlar soni (ta)</label
+          >
+          <input
+            required
+            type="number"
+            name="manzarali_daraxtlar"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Nechta?"
+          />
+        </div>
+
+        <button
+          type="submit"
+          id="submit-btn"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-lg font-semibold transition"
+        >
+          Yuborish
+        </button>
+        <br />
+        <br />
+        <hr />
+
+        <button
+          class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-lg font-semibold transition"
+          onclick="window.location.href='/hammaData.html'"
+        >
+          Hamma ma'lumotlarni ko'rish
+        </button>
+      </form>
+    </div>
+
+    <script>
+      const sababiDiv = document.getElementById('sababi-div');
+      const form = document.getElementById('form');
+      const submitBtn = document.getElementById('submit-btn'); // Tugmani oldik
+
+      // 6-savol radiolari
+      const yashaydiRadios = document.querySelectorAll(
+        'input[name="yashaydi"]'
+      );
+
+      yashaydiRadios.forEach((radio) => {
+        radio.addEventListener('change', () => {
+          if (radio.value === 'yoq') {
+            sababiDiv.classList.remove('hidden'); // Yo‘q bosilganda ko‘rsatish
+          } else {
+            sababiDiv.classList.add('hidden'); // Ha bosilganda yashirish
+            // Sabab radio tugmalarini ham reset qilamiz
+            const sababRadios = document.querySelectorAll(
+              'input[name="yashamaydi_sababi"]'
+            );
+            sababRadios.forEach((r) => (r.checked = false));
+          }
+        });
+      });
+
+      // Form submit
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 1. Tugmani o'chirish va matnni o'zgartirish
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Yuborilmoqda... Kuting!';
+
+        const data = Object.fromEntries(new FormData(form));
+
+        // Agar Ha bosilgan bo‘lsa, sabab bo‘sh bo‘lsin
+        if (data.yashaydi === 'xa') {
+          data.yashamaydi_sababi = '';
+        }
+
+        try {
+          const res = await fetch('/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+
+          const result = await res.json();
+          alert("Ma'lumot muvaffaqiyatli yuborildi!🎉🎉🎉");
+
+          // Form reset va sabablar yashirish
+          form.reset();
+          sababiDiv.classList.add('hidden');
+        } catch (err) {
+          console.error(err);
+          alert("Xatolik yuz berdi! Ma'lumot yuborilmadi.");
+        } finally {
+          // 2. Tugmani qayta yoqish va matnni tiklash
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Yuborish';
+        }
+      });
+    </script>
+  </body>
+</html>
