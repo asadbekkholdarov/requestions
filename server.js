@@ -28,7 +28,7 @@ app.post('/submit', async (req, res) => {
 });
 
 // GET /allData
-app.get('https://requestions.onrender.com/allData', async (req, res) => {
+app.get('/allData', async (req, res) => {
   try {
     const data = await FormData.find().sort({ createdAt: -1 });
     res.json(data);
