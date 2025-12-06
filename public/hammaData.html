@@ -26,7 +26,7 @@
       const tableHeader = document.getElementById('tableHeader');
       const tableBody = document.getElementById('tableBody');
 
-      fetch('http://localhost:4000/allData')
+      fetch('https://requestions.onrender.com/allData')
         .then((res) => res.json())
         .then((data) => {
           if (data.length === 0) {
