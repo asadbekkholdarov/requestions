@@ -17,7 +17,7 @@ mongoose
   .catch((err) => console.log(err));
 
 // POST /submit
-app.post('https://requestions.onrender.com/submit', async (req, res) => {
+app.post('/submit', async (req, res) => {
   try {
     const data = new FormData(req.body);
     await data.save();
