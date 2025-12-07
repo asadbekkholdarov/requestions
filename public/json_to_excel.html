@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSON to Excel Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md text-center">
+      <button
+        class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        onclick="window.history.back()"
+      >
+        &lt;- Ortga
+      </button>
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">
+        JSON to CSV Converter 🚀
+      </h1>
+      <button
+        id="convertButton"
+        class="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out shadow-md"
+      >
+        Download Data as CSV (Excel)
+      </button>
+      <p id="status" class="mt-4 text-sm text-gray-600"></p>
+    </div>
+
+    <script>
+      const JSON_URL = 'https://requestions.vercel.app/allData';
+      const convertButton = document.getElementById('convertButton');
+      const statusElement = document.getElementById('status');
+
+      // Function to convert JSON array to a CSV string
+      function jsonToCsv(data) {
+        if (data.length === 0) return '';
+
+        // 1. Get all unique keys for the header
+        const allKeys = new Set();
+        data.forEach((item) => {
+          Object.keys(item).forEach((key) => allKeys.add(key));
+        });
+
+        // Convert Set to Array and filter out unwanted keys
+        let headers = Array.from(allKeys).filter(
+          (key) => key !== '_id' && key !== '__v' && key !== 'updatedAt'
+        );
+
+        // Ensure 'createdAt' is the last column for consistency
+        headers = headers.filter((key) => key !== 'createdAt');
+        if (allKeys.has('createdAt')) {
+          headers.push('createdAt');
+        }
+
+        // Helper function to escape data for CSV
+        const escapeValue = (value) => {
+          if (value === null || value === undefined) return '';
+
+          // Format date for better readability in Excel
+          if (
+            typeof value === 'string' &&
+            value.includes('T') &&
+            value.includes('Z')
+          ) {
+            try {
+              return new Date(value).toLocaleString();
+            } catch (e) {
+              // Ignore date formatting error
+            }
+          }
+
+          // Handle objects/arrays by stringifying them
+          if (typeof value === 'object') {
+            value = JSON.stringify(value);
+          }
+
+          // Convert to string and escape quotes by doubling them
+          let str = String(value);
+          if (str.includes(',')) {
+            str = `"${str.replace(/"/g, '""')}"`;
+          }
+          return str;
+        };
+
+        // 2. Create the header row
+        const headerRow = headers.map(escapeValue).join(',');
+
+        // 3. Create the data rows
+        const dataRows = data.map((item) => {
+          return headers
+            .map((header) => {
+              return escapeValue(item[header]);
+            })
+            .join(',');
+        });
+
+        return [headerRow, ...dataRows].join('\n');
+      }
+
+      // Function to trigger the download
+      async function downloadCsv() {
+        convertButton.disabled = true;
+        statusElement.textContent = 'Fetching data...';
+
+        try {
+          const response = await fetch(JSON_URL);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+
+          if (data.length === 0) {
+            statusElement.textContent = 'No data found in the response.';
+            convertButton.disabled = false;
+            return;
+          }
+
+          statusElement.textContent = 'Converting to CSV...';
+          const csvString = jsonToCsv(data);
+
+          // Create a Blob containing the CSV data
+          const blob = new Blob([csvString], {
+            type: 'text/csv;charset=utf-8;',
+          });
+
+          // Create a link element and trigger the download
+          const link = document.createElement('a');
+          if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'form_submissions.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            statusElement.textContent = 'Download complete! ✅';
+          }
+        } catch (error) {
+          statusElement.textContent = `Error: ${error.message}. Check console for details.`;
+          console.error(error);
+        } finally {
+          convertButton.disabled = false;
+        }
+      }
+
+      // Attach the function to the button click
+      convertButton.addEventListener('click', downloadCsv);
+    </script>
+  </body>
+</html>
