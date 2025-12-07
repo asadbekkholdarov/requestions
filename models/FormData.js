@@ -26,6 +26,7 @@ const FormDataSchema = new mongoose.Schema(
 
     odam_soni: Number, // 7
     yer_maydoni: String, // 8  (8.6 sotix etc)
+    qishloq_x: String,
     yirik_shoxli_mollar: Number, // 9
     qoy_echki_soni: Number, // 10
     parranda_soni: Number, // 11
